@@ -5,13 +5,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.BDDMockito.given;
+
 /**
  * Created by daren on 2017/5/6.
  * reference from https://dzone.com/refcardz/mockito
@@ -20,6 +23,12 @@ public class MockitoDemo {
 
     @Mock
     private Map<String, String> map;
+
+    /**
+     * monit a real object
+     */
+    @Spy
+    private Map<String, String> spyMap = new HashMap<>();
 
     @Before
     public void beforeMock() {
@@ -52,6 +61,21 @@ public class MockitoDemo {
         });
         System.out.println(map.get("one"));
         System.out.println(map.size());
+    }
+
+
+    @Test
+    public void testSpyMap() {
+        spyMap.put("one", "1");
+        spyMap.put("two", "2");
+        String str = spyMap.get("one");
+        Assert.assertEquals("1", str);
+        when(spyMap.get("one")).then((obj) -> {
+            System.out.println(Arrays.toString(obj.getArguments()));;
+            return String.valueOf(System.currentTimeMillis());
+        });
+        System.out.println(spyMap.get("one"));
+        System.out.println(spyMap.size());
     }
 
     @Test
