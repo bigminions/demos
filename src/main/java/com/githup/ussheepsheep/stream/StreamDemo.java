@@ -71,6 +71,16 @@ public class StreamDemo {
 
         List<String> endTen = strList.stream().skip(strList.size() - 10).collect(Collectors.toList());
         logger.info("后十个单词是：{}", endTen);
+
+        strList.stream().peek(s -> System.out.print("长度为" + s.length())).peek(s -> System.out.print(" -- ")).forEach(System.out::println);
+    }
+
+    @Test
+    public void testParallel() {
+        System.out.println("demo 1 ");
+        Stream.of("one", "two", "three", "four", "five").parallel().forEach(System.out::println);
+        System.out.println("demo 2 ");
+        Stream.of("one", "two", "three", "four", "five").parallel().forEachOrdered(System.out::println);
     }
 
     @Test
