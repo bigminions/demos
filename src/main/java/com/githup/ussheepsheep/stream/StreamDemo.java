@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -73,6 +74,9 @@ public class StreamDemo {
         logger.info("后十个单词是：{}", endTen);
 
         strList.stream().peek(s -> System.out.print("长度为" + s.length())).peek(s -> System.out.print(" -- ")).forEach(System.out::println);
+
+        String[] sortedTen = strList.stream().distinct().sorted().limit(10).toArray(String[]::new);
+        logger.info("排序后前十个单词是：{}", Arrays.toString(sortedTen));
     }
 
     @Test
