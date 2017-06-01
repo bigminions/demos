@@ -44,10 +44,14 @@ public class Demo6 {
         Runnable runnable = () -> {
             try {
                 while (true) {
-                    semaphore.take();
-                    System.out.println(Thread.currentThread().getName() + " do something");
-                    semaphore.release(); //把这行注释，出现锁死
-                    Thread.sleep(random.nextInt(1000));
+                    try {
+                        semaphore.take();
+                        int sleepTime = random.nextInt(5) * 1000;
+                        System.out.println(Thread.currentThread().getName() + " do something, and will sleep " + sleepTime + " s");
+                        Thread.sleep(sleepTime);
+                    } finally {
+                        semaphore.release(); //把这行注释，出现锁死
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
