@@ -37,7 +37,7 @@ public class Demo5 {
             try {
                 lock.unlock();
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println("has error : " + e.getMessage());
             }
         }).start();
 
