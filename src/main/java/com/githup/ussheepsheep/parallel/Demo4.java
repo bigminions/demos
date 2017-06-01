@@ -2,7 +2,8 @@ package com.githup.ussheepsheep.parallel;
 
 /**
  * Created by daren on 2017/5/31.
- * ThreadLocal : 该类中有一个threadLocals的map，保存不同thread的set进去的value，取的时候根据currentThread取
+ * ThreadLocal :
+ *     该类中有一个threadLocals的map，保存不同thread的set进去的value，取的时候根据currentThread取
  */
 public class Demo4 {
 

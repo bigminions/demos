@@ -25,16 +25,13 @@ public class Demo3 {
             Random random = new Random();
             while (true) {
                 if (produce.size() > 10) {
-                    toWait();
+                    synchronized (this) {
+                        System.out.println(Thread.currentThread().getName() + " === wait === ");
+                        wait();
+                    }
                 }
                 produce.add(random.nextInt());
                 Thread.sleep(PRODUCE_TIME);
-            }
-        }
-
-        public void toWait() throws Exception {
-            synchronized (this) {
-                wait();
             }
         }
 
@@ -53,17 +50,14 @@ public class Demo3 {
             while (true) {
                 Integer integer = produce.poll();
                 if (integer == null) {
-                    toWait();
+                    synchronized (this) {
+                        System.out.println(Thread.currentThread().getName() + " === wait === ");
+                        wait();
+                    }
                 } else {
                     System.out.println(threadName + " : 消费数字 " + integer + " 待消费数字有 " + produce.size() + " 个");
                 }
                 Thread.sleep(CONSUME_TIME);
-            }
-        }
-
-        public void toWait() throws Exception {
-            synchronized (this) {
-                wait();
             }
         }
 
