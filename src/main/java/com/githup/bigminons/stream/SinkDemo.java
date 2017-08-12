@@ -1,4 +1,4 @@
-package com.githup.ussheepsheep.stream;
+package com.githup.bigminons.stream;
 
 import org.junit.Test;
 

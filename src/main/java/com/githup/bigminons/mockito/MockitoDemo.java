@@ -1,4 +1,4 @@
-package com.githup.ussheepsheep.mockito;
+package com.githup.bigminons.mockito;
 
 import org.junit.Assert;
 import org.junit.Before;

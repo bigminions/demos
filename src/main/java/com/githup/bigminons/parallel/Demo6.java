@@ -1,4 +1,4 @@
-package com.githup.ussheepsheep.parallel;
+package com.githup.bigminons.parallel;
 
 import java.util.Random;
 

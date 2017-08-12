@@ -1,4 +1,4 @@
-package com.githup.ussheepsheep.mongo;
+package com.githup.bigminons.mongo;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.Block;
