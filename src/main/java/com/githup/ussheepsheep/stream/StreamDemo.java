@@ -94,4 +94,15 @@ public class StreamDemo {
         List<Integer> randomList = Stream.generate(randomSupplier).limit(10).collect(Collectors.toList());
         logger.info("十个随机数：{}", randomList);
     }
+
+    @Test
+    public void testPeek() {
+        List<String> list = new ArrayList<>();
+        Stream.of("one", "two", "three", "four", "five").peek(System.out::println);
+        Stream.of("one", "two", "three", "four", "five").peek(str -> {
+            System.out.println(str);
+            list.add(str);
+        });
+        System.out.println(list.size());
+    }
 }
