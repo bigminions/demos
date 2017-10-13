@@ -1,15 +1,14 @@
-package com.githup.ussheepsheep.parallel;
-
+package com.githup.bigminons.parallel;
 
 /**
- * Created by daren on 2017/5/31.
+ * Created by daren on 2017/5/23.
  * 多个资源竞争同意资源，会产生竟态，在demo中，forNum越大则出现的可能性越大
  */
-public class Demo2 {
+public class Demo1 {
 
     private static final Counter counter = new Counter();
 
-    private static final int forNum = 10000;
+    private static final int forNum = 1000;
 
     public static void main(String[] args) {
         Runnable runnable = () -> {
@@ -38,16 +37,7 @@ public class Demo2 {
         private int count = 0;
 
         public void count() {
-            /**
-             * 通过添加同步块可以使同一时间只有一个线程运行该代码，此处对同一对象生效
-             * 假如想限制同一个类但是不同对象使用，则使用
-             * synchronized (Counter.class) {
-             *     count++;
-             * }
-             */
-            synchronized (this) {
-                count++;
-            }
+            count++;
         }
 
         public int getCount() {

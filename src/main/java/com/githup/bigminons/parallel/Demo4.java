@@ -1,4 +1,4 @@
-package com.githup.ussheepsheep.parallel;
+package com.githup.bigminons.parallel;
 
 /**
  * Created by daren on 2017/5/31.
