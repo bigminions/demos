@@ -16,9 +16,13 @@ public class SocketNioDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(SocketNioDemo.class);
 
     public static void main(String[] args) {
-        LOGGER.info("# start server #");
-        Server.start();
-        LOGGER.info("# start client #");
-        Client.start();
+        try {
+            LOGGER.info("# start server #");
+            Server.start();
+            LOGGER.info("# start client #");
+            Client.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
