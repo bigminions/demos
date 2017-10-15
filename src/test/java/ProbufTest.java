@@ -1,4 +1,4 @@
-import com.githup.bigminons.probuf.AddressBookProtos;
+import com.githup.bigminions.probuf.AddressBookProtos;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.junit.Test;
 
