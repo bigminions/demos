@@ -7,10 +7,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.util.Iterator;
 
 public class Server {
@@ -25,11 +22,10 @@ public class Server {
 
             ServerSocket serverSocket = channel.socket();
             serverSocket.bind(new InetSocketAddress(SocketNioDemo.PORT));
-
             channel.register(selector, SelectionKey.OP_ACCEPT);
+            LOGGER.info("server listen port on : {} ...", SocketNioDemo.PORT);
 
             new Thread(() -> {
-                LOGGER.info("server listen port on : {} ...", SocketNioDemo.PORT);
                 while (true) {
                     try {
                         int count = selector.select();
@@ -41,36 +37,47 @@ public class Server {
                                 if (!key.isValid()) continue;
                                 if (key.isAcceptable()) accept(key);
                                 if (key.isReadable()) read(key);
-                                key.cancel();
                             }
                         }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (Exception e) {
+                        LOGGER.error("server error !", e);
                     }
                 }
             }).start();
         }
 
-        private static void accept(SelectionKey key) throws IOException {
-            LOGGER.info("client will be accept ");
-            ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
-            SocketChannel socketChannel = serverSocketChannel.accept();
-            socketChannel.configureBlocking(false);
-            socketChannel.register(selector, SelectionKey.OP_READ);
+        private static void accept(SelectionKey key) {
+            try {
+                LOGGER.info("client will be accept ");
+                ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
+                SocketChannel socketChannel = serverSocketChannel.accept();
+                socketChannel.register(selector, SelectionKey.OP_READ);
+            } catch (ClosedChannelException e) {
+                LOGGER.error("something error when close !", e);
+            } catch (IOException e) {
+                LOGGER.error("something error in IO !", e);
+            }
         }
 
-        private static void read(SelectionKey key) throws IOException {
-            SocketChannel socketChannel = (SocketChannel) key.channel();
-            // this example is simple : just support 1024 byte and string
-            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-            int num = 0;
-            num = socketChannel.read(byteBuffer);
-            byte[] bytes = new byte[num];
-            for (int i = 0; i < num; i++) {
-                bytes[i] = byteBuffer.get();
+        private static void read(SelectionKey key) {
+            try {
+                SocketChannel socketChannel = (SocketChannel) key.channel();
+                // this example is simple : just support 1024 byte and string
+                ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+                if (socketChannel.read(byteBuffer) > 0) {
+                    // read string
+                    byteBuffer.flip();
+                    int strLen = byteBuffer.getInt();
+                    byte[] bytes = new byte[strLen];
+                    for (int i = 0; i < strLen; i++) {
+                        bytes[i] = byteBuffer.get();
+                    }
+
+                    String recv = new String(bytes);
+                    LOGGER.info("[SERVER] size : {}, read : {}", bytes.length, recv);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            String recv = new String(bytes);
-            LOGGER.info("server recv : " + recv);
         }
     }

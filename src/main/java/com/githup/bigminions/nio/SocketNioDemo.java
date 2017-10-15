@@ -8,6 +8,7 @@ import java.io.IOException;
 /**
  * Created by daren on 2017/10/13.
  * ref : http://rox-xmlrpc.sourceforge.net/niotut/
+ * Simple example of nio client-server.
  */
 public class SocketNioDemo {
 
@@ -15,13 +16,9 @@ public class SocketNioDemo {
     private static final Logger LOGGER = LoggerFactory.getLogger(SocketNioDemo.class);
 
     public static void main(String[] args) {
-        try {
-            LOGGER.info("# start server #");
-            Server.start();
-            LOGGER.info("# start client #");
-            Client.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        LOGGER.info("# start server #");
+        Server.start();
+        LOGGER.info("# start client #");
+        Client.start();
     }
 }
