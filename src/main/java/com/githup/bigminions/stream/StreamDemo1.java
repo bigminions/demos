@@ -20,4 +20,11 @@ public class StreamDemo1 {
         System.out.println(page2);
 
     }
+
+    @Test
+    public void testReduceStr() {
+        List<Integer> numbers = List.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        String numbersStr = numbers.stream().map(String::valueOf).reduce("", (s, s2) -> String.join(",", s, s2));
+        System.out.println(numbersStr);
+    }
 }
