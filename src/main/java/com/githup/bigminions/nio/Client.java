@@ -33,7 +33,7 @@ public class Client {
                 ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
                 String send = "Hello, World, " + LocalTime.now().format(DateTimeFormatter.ofPattern("mm:ss"));
                 byte[] bytes = send.getBytes();
-                LOGGER.info("[client] size : {}, send : {}", bytes.length, send);
+                LOGGER.info("[CLIENT] size : {}, send : {}", bytes.length, send);
                 // write string
                 byteBuffer.putInt(bytes.length);
                 for (int i = 0; i < bytes.length; i++) {

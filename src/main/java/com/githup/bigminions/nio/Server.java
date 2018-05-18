@@ -51,6 +51,7 @@ public class Server {
                 LOGGER.info("client will be accept ");
                 ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
                 SocketChannel socketChannel = serverSocketChannel.accept();
+                socketChannel.configureBlocking(false);
                 socketChannel.register(selector, SelectionKey.OP_READ);
             } catch (ClosedChannelException e) {
                 LOGGER.error("something error when close !", e);
