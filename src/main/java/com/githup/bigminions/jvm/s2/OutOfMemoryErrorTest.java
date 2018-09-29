@@ -110,7 +110,7 @@ public class OutOfMemoryErrorTest {
          * 结果：
          *  Exception in thread "main" java.lang.OutOfMemoryError
          *  at java.base/jdk.internal.misc.Unsafe.allocateMemory(Unsafe.java:616)
-         *  at jdk.unsupported/sun.misc.Unsafe.allocateMemory(Unsafe.java:463)
+         *  at jdk.unsupported/sun.misc.Unsafe.allocateMemory(Unsafe .java:463)
          *  at com.githup.bigminions.jvm.s2.OutOfMemoryErrorTest$DirectMemoryOut.main(OutOfMemoryErrorTest.java:127)
          * @param args
          * @throws IllegalAccessException
