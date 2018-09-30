@@ -2,7 +2,9 @@ package com.githup.bigminions.parallel.lock;
 
 import com.google.common.base.Stopwatch;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -17,10 +19,6 @@ public class ReadWriteLockDemo {
     private static final Lock LOCK = new ReentrantLock();
 
     private static final ReadWriteLock READ_WRITE_LOCK = new ReentrantReadWriteLock();
-
-    private static final Lock READ_LOCK = READ_WRITE_LOCK.readLock();
-
-    private static final Lock WRITE_LOCK = READ_WRITE_LOCK.writeLock();
 
     private static class Data {
         private String  data = (new Date()).toString();
@@ -82,41 +80,58 @@ public class ReadWriteLockDemo {
         }
     }
 
+    /**
+     * 10个读任务，5个写任务，读写各耗时1s，普通锁需耗时15s左右，读写锁则在小于15s
+     * @param args
+     * @throws InterruptedException
+     */
     public static void main(String[] args) throws InterruptedException {
         Data data = new Data();
 
         Stopwatch stopwatch = Stopwatch.createStarted();
-
-//        for (int i = 0; i < 20; i++) {
-//            ReadTask readTask = new ReadTask(LOCK, data);
-//            WriteTask writeTask = new WriteTask(LOCK, data);
-//            Thread thread1 = new Thread(readTask);
-//            thread1.start();
-//            thread1.join();
-//            if (i > 10) {
-//                Thread thread2 = new Thread(writeTask);
-//                thread2.start();
-//                thread2.join();
-//            }
-//        }
-//
-//        System.out.println("使用单一锁" + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms\n");
+        List<Thread> threads = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            ReadTask readTask = new ReadTask(LOCK, data);
+            WriteTask writeTask = new WriteTask(LOCK, data);
+            Thread thread1 = new Thread(readTask);
+            thread1.start();
+            threads.add(thread1);
+            if (i % 2 == 0) {
+                Thread thread2 = new Thread(writeTask);
+                thread2.start();
+                threads.add(thread2);
+            }
+        }
+        threads.forEach(thread -> {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        System.out.println("使用单一锁" + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms\n");
 
         stopwatch = Stopwatch.createStarted();
-
-        for (int i = 0; i < 20; i++) {
+        threads.clear();
+        for (int i = 0; i < 10; i++) {
             ReadTask readTask = new ReadTask(READ_WRITE_LOCK.readLock(), data);
             WriteTask writeTask = new WriteTask(READ_WRITE_LOCK.writeLock(), data);
             Thread thread1 = new Thread(readTask);
             thread1.start();
-            thread1.join();
-            if (i > 10) {
+            threads.add(thread1);
+            if (i % 2 == 0) {
                 Thread thread2 = new Thread(writeTask);
                 thread2.start();
-                thread2.join();
+                threads.add(thread2);
             }
         }
-
+        threads.forEach(thread -> {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
         System.out.println("使用读写锁" + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms\n");;
 
     }
