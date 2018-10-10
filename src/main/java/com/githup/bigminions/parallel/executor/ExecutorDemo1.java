@@ -12,7 +12,7 @@ public class ExecutorDemo1 {
 
     private static final Executor executor = Executors.newSingleThreadExecutor();
 
-    private static Integer counter = Integer.valueOf(0);
+    private static Integer counter = 0;
 
     public static void main(String[] args) {
         Runnable runnable = () -> {
