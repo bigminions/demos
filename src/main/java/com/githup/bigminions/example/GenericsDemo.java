@@ -1,5 +1,8 @@
 package com.githup.bigminions.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by daren on 2018/6/7.
  * java 泛型上下界
@@ -10,11 +13,15 @@ public class GenericsDemo {
 
         private T t;
 
-        public T getT() {
+        Box(T t) {
+            this.t = t;
+        }
+
+        T getT() {
             return t;
         }
 
-        public void setT(T t) {
+        void setT(T t) {
             this.t = t;
         }
     }
@@ -27,29 +34,27 @@ public class GenericsDemo {
         Object object = new Object();
         Food food = new Food();
         Fruit fruit = new Fruit();
-        Box<Food> box = new Box<>();
-        Box<? extends Food> box1 = new Box<>();
-        Box<? super Food> box2 = new Box<>();
 
-//        box.setT(object);  //  illegal
+        Box<Food> box = new Box<>(food);
         box.setT(food);
         box.setT(fruit);
-        object = box.getT();
+//        box.setT(object);  //  illegal (case1)
         food = box.getT();
-//        fruit = box.getT(); //  illegal
+//        fruit = box.getT(); //  illegal(case2)
 
-//        box1.setT(object);  //  illegal
-//        box1.setT(food);  //  illegal
-//        box1.setT(fruit);  //  illegal
-        object = box1.getT();
+        Box<? extends Food> box1= new Box<>(food);
+//        box1.setT(food);  //  illegal (case3)
+//        box1.setT(fruit);  //  illegal (case4)
+//        box1.setT(object);  //  illegal (case5)
         food = box1.getT();
-//        fruit = box1.getT();  //  illegal
+//        fruit = box1.getT();  //  illegal (case6)
 
-//        box2.setT(object);  //  illegal
+        Box<? super Food> box2 = new Box<>(food);
         box2.setT(food);
         box2.setT(fruit);
-        object = box2.getT();
-//        food = box2.getT();  //  illegal
-//        fruit = box2.getT();  //  illegal
+//        box2.setT(object);  //  illegal (case7)
+//        food = box2.getT();  //  illegal (case8)
+//        fruit = box2.getT();  //  illegal (case9)
     }
+
 }
