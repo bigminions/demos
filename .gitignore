@@ -8,3 +8,5 @@
 #maven
 /log/**
 /target/**
+
+SomethingTest*.java
