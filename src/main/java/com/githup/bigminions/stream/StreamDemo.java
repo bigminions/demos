@@ -1,5 +1,6 @@
 package com.githup.bigminions.stream;
 
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -103,5 +104,18 @@ public class StreamDemo {
             list.add(str);
         });
         System.out.println(list.size());
+    }
+
+    @Test
+    public void testSort () {
+        List<Integer> list = Lists.newArrayList(1, 11, 34, 24, 12, 9, 100, 55);
+        list.sort(Comparator.comparing(a -> a));
+        System.out.println(list);
+
+        list.sort(Comparator.reverseOrder());
+        System.out.println(list);
+
+        list.sort(Comparator.comparing(Integer::intValue).reversed());
+        System.out.println(list);
     }
 }
