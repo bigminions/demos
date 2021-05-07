@@ -21,5 +21,12 @@ public class StringTest {
         System.out.println("b.hash = " + b.hashCode());
         System.out.println("e.hash = " + e.hashCode());
         System.out.println("f.hash = " + f.hashCode());
+
+        int i1 = 10000;
+        long l1 = 10000L;
+        float f1 = 10000.0000000f;
+
+        System.out.println(i1 == l1); // true
+        System.out.println(i1 == f1); // true
     }
 }

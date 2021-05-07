@@ -1,5 +1,6 @@
 package com.githup.bigminions.set;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -17,6 +18,15 @@ public class HashSetDemo {
         des.add(new De());
         des.add(new De());
         System.out.println(des.size());
+
+        hashSet = new HashSet();
+        hashSet.add(new Integer(1));
+        hashSet.add(new Integer(1));
+        hashSet.add(null);
+        System.out.println(hashSet.size());
+
+        HashMap map = new HashMap();
+        map.put(null, null);
     }
 
     public static class De {

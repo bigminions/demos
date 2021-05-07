@@ -39,5 +39,7 @@ public class LockSupportDemo {
 
         thread1.join();
         thread2.join();
+
+        thread2.interrupt();
     }
 }
